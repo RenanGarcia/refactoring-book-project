@@ -9,30 +9,7 @@ function statment(invoice, plays) {
     minimumFractionDigits: 2,
   }).format;
 
-  for (let perf of invoice.performances) {
-    const play = plays[perf.playID];
-
-    let thisAmount = amountFor(perf, play);
-
-    // soma créditos por volume
-    volumeCredits += Math.max(perf.audience - 30, 0);
-
-    //soma um crédito extra para cada de espectadores de comédia
-    if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
-
-    // exibe a linha para esta requisição
-    result += ` ${play.name}: ${format(thisAmount / 100)} (${
-      perf.audience
-    } seats)\n`;
-    totalAmount += thisAmount;
-  }
-
-  result += `Amount owed is ${format(totalAmount / 100)}\n`;
-  result += `You earned ${volumeCredits} credits\n`;
-  return result;
-}
-
-function amountFor(aPerformance, play) {
+  function amountFor(aPerformance, play) {
   let result = 0;
 
   switch (play.type) {
@@ -55,6 +32,29 @@ function amountFor(aPerformance, play) {
       throw new Error(`unknown type: ${play.type}`);
   }
 
+  return result;
+}
+
+  for (let perf of invoice.performances) {
+    const play = plays[perf.playID];
+
+    let thisAmount = amountFor(perf, play);
+
+    // soma créditos por volume
+    volumeCredits += Math.max(perf.audience - 30, 0);
+
+    //soma um crédito extra para cada de espectadores de comédia
+    if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
+
+    // exibe a linha para esta requisição
+    result += ` ${play.name}: ${format(thisAmount / 100)} (${
+      perf.audience
+    } seats)\n`;
+    totalAmount += thisAmount;
+  }
+
+  result += `Amount owed is ${format(totalAmount / 100)}\n`;
+  result += `You earned ${volumeCredits} credits\n`;
   return result;
 }
 
