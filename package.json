@@ -1,0 +1,14 @@
+{
+  "name": "refactoring-book",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Renan Garcia",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^26.4.2"
+  }
+}
