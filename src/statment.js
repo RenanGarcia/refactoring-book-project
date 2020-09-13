@@ -7,35 +7,12 @@ function statment(invoice, plays) {
   function enrichPerformance(aPerformance) {
     const result = { ...aPerformance };
     result.play = playFor(result);
+    result.amount = amountFor(result);
     return result;
   }
 
   function playFor(aPerformance) {
     return plays[aPerformance.playID];
-  }
-
-  return renderPlainText(statmentData, plays);
-}
-
-function renderPlainText(data) {
-  let result = `Statment for ${data.customer}\n`;
-
-  for (let perf of data.performances) {
-    result += ` ${perf.play.name}: ${usd(amountFor(perf))}`;
-    result += ` (${perf.audience} seats)\n`;
-  }
-
-  result += `Amount owed is ${usd(getTotalAmount())}\n`;
-  result += `You earned ${totalVolumeCredits()} credits\n`;
-
-  return result;
-
-  function getTotalAmount() {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += amountFor(perf);
-    }
-    return result;
   }
 
   function amountFor(aPerformance) {
@@ -61,6 +38,30 @@ function renderPlainText(data) {
         throw new Error(`unknown type: ${aPerformance.play.type}`);
     }
 
+    return result;
+  }
+
+  return renderPlainText(statmentData, plays);
+}
+
+function renderPlainText(data) {
+  let result = `Statment for ${data.customer}\n`;
+
+  for (let perf of data.performances) {
+    result += ` ${perf.play.name}: ${usd(perf.amount)}`;
+    result += ` (${perf.audience} seats)\n`;
+  }
+
+  result += `Amount owed is ${usd(getTotalAmount())}\n`;
+  result += `You earned ${totalVolumeCredits()} credits\n`;
+
+  return result;
+
+  function getTotalAmount() {
+    let result = 0;
+    for (let perf of data.performances) {
+      result += perf.amount;
+    }
     return result;
   }
 
