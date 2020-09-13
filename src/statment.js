@@ -1,6 +1,22 @@
 function statment(invoice, plays) {
   let result = `Statment for ${invoice.customer}\n`;
 
+  for (let perf of invoice.performances) {
+    // exibe a linha para esta requisição
+    result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${
+      perf.audience
+    } seats)\n`;
+  }
+
+  result += `Amount owed is ${usd(getTotalAmount())}\n`;
+  result += `You earned ${totalVolumeCredits()} credits\n`;
+
+  return result;
+
+  function playFor(aPerformance) {
+    return plays[aPerformance.playID];
+  }
+
   function getTotalAmount() {
     let result = 0;
     for (let perf of invoice.performances) {
@@ -35,10 +51,6 @@ function statment(invoice, plays) {
     return result;
   }
 
-  function playFor(aPerformance) {
-    return plays[aPerformance.playID];
-  }
-
   function totalVolumeCredits() {
     let result = 0;
     for (let perf of invoice.performances) {
@@ -55,17 +67,6 @@ function statment(invoice, plays) {
     }
     return result;
   }
-
-  for (let perf of invoice.performances) {
-    // exibe a linha para esta requisição
-    result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${
-      perf.audience
-    } seats)\n`;
-  }
-
-  result += `Amount owed is ${usd(getTotalAmount())}\n`;
-  result += `You earned ${totalVolumeCredits()} credits\n`;
-  return result;
 }
 
 function usd(aNumber) {
