@@ -1,8 +1,9 @@
 function statment(invoice, plays) {
-  const statmentData = {
-    customer: invoice.customer,
-    performances: invoice.performances.map(enrichPerformance),
-  };
+  const statmentData = {};
+  statmentData.customer = invoice.customer;
+  statmentData.performances = invoice.performances.map(enrichPerformance);
+  statmentData.totalAmount = getTotalAmount(statmentData);
+  statmentData.totalVolumeCredits = totalVolumeCredits(statmentData);
 
   function enrichPerformance(aPerformance) {
     const result = { ...aPerformance };
@@ -51,6 +52,22 @@ function statment(invoice, plays) {
     return result;
   }
 
+  function getTotalAmount(data) {
+    let result = 0;
+    for (let perf of data.performances) {
+      result += perf.amount;
+    }
+    return result;
+  }
+
+  function totalVolumeCredits(data) {
+    let result = 0;
+    for (let perf of data.performances) {
+      result += perf.volumeCredits;
+    }
+    return result;
+  }
+
   return renderPlainText(statmentData, plays);
 }
 
@@ -62,26 +79,10 @@ function renderPlainText(data) {
     result += ` (${perf.audience} seats)\n`;
   }
 
-  result += `Amount owed is ${usd(getTotalAmount())}\n`;
-  result += `You earned ${totalVolumeCredits()} credits\n`;
+  result += `Amount owed is ${usd(data.totalAmount)}\n`;
+  result += `You earned ${data.totalVolumeCredits} credits\n`;
 
   return result;
-
-  function getTotalAmount() {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.amount;
-    }
-    return result;
-  }
-
-  function totalVolumeCredits() {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.volumeCredits;
-    }
-    return result;
-  }
 }
 
 function usd(aNumber) {
