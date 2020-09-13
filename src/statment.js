@@ -1,6 +1,14 @@
 function statment(invoice, plays) {
   let result = `Statment for ${invoice.customer}\n`;
 
+  function getTotalAmount() {
+    let result = 0;
+    for (let perf of invoice.performances) {
+      result += amountFor(perf);
+    }
+    return result;
+  }
+
   function amountFor(aPerformance) {
     let result = 0;
 
@@ -55,10 +63,7 @@ function statment(invoice, plays) {
     } seats)\n`;
   }
 
-  let totalAmount = 0;
-  for (let perf of invoice.performances) {
-    totalAmount += amountFor(perf);
-  }
+  let totalAmount = getTotalAmount();
 
   result += `Amount owed is ${usd(totalAmount)}\n`;
   result += `You earned ${totalVolumeCredits()} credits\n`;
