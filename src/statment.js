@@ -1,5 +1,4 @@
 function statment(invoice, plays) {
-  let totalAmount = 0;
   let result = `Statment for ${invoice.customer}\n`;
 
   function amountFor(aPerformance) {
@@ -56,6 +55,7 @@ function statment(invoice, plays) {
     } seats)\n`;
   }
 
+  let totalAmount = 0;
   for (let perf of invoice.performances) {
     totalAmount += amountFor(perf);
   }
