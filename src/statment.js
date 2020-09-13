@@ -21,10 +21,8 @@ function renderPlainText(data) {
   let result = `Statment for ${data.customer}\n`;
 
   for (let perf of data.performances) {
-    // exibe a linha para esta requisição
-    result += ` ${perf.play.name}: ${usd(amountFor(perf))} (${
-      perf.audience
-    } seats)\n`;
+    result += ` ${perf.play.name}: ${usd(amountFor(perf))}`;
+    result += ` (${perf.audience} seats)\n`;
   }
 
   result += `Amount owed is ${usd(getTotalAmount())}\n`;
