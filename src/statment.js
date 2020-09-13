@@ -32,6 +32,14 @@ function statment(invoice, plays) {
     return plays[aPerformance.playID];
   }
 
+  function totalVolumeCredits() {
+    let volumeCredits = 0;
+    for (let perf of invoice.performances) {
+      volumeCredits += volumeCreditsFor(perf);
+    }
+    return volumeCredits;
+  }
+
   function volumeCreditsFor(aPerformance) {
     let result = 0;
 
@@ -42,14 +50,6 @@ function statment(invoice, plays) {
     }
 
     return result;
-  }
-
-  function totalVolumeCredits() {
-    let volumeCredits = 0;
-    for (let perf of invoice.performances) {
-      volumeCredits += volumeCreditsFor(perf);
-    }
-    return volumeCredits;
   }
 
   for (let perf of invoice.performances) {
