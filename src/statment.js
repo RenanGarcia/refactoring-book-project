@@ -1,4 +1,9 @@
 function statment(invoice, plays) {
+  const statmentData = {};
+  return renderPlainText(statmentData, invoice, plays);
+}
+
+function renderPlainText(data, invoice, plays) {
   let result = `Statment for ${invoice.customer}\n`;
 
   for (let perf of invoice.performances) {
