@@ -3,12 +3,6 @@ function statment(invoice, plays) {
   let volumeCredits = 0;
   let result = `Statment for ${invoice.customer}\n`;
 
-  const format = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-  }).format;
-
   function amountFor(aPerformance) {
     let result = 0;
 
@@ -64,6 +58,14 @@ function statment(invoice, plays) {
   result += `Amount owed is ${format(totalAmount / 100)}\n`;
   result += `You earned ${volumeCredits} credits\n`;
   return result;
+}
+
+function format(aNumber) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+  }).format(aNumber);
 }
 
 module.exports = statment;
